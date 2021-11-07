@@ -40,6 +40,18 @@ const Home = () => {
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.contact}</td>
+                                    <td>
+                                        <Link to={`/update/${user.id}`}>
+                                            <button className="btn btn-edit">Edit</button>
+                                        </Link>
+
+                                        <button className="btn btn-delete">Delete</button>
+
+                                        <Link to={`/view/${user.id}`}>
+                                            <button className="btn btn-view">View</button>
+                                        </Link>
+                                        
+                                    </td>
                                 </tr>
                             )
                         })}
