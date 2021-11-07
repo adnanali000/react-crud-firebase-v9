@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/database';
+// import 'firebase/compat/database';
+import {getFirestore} from '@firebase/firestore';
 
 require('dotenv').config();
 
@@ -14,5 +15,5 @@ const firebaseConfig = {
     appId: "1:409563616666:web:07fb3ccf5baa2de0f55623"
   };
 
-const fireDb = firebase.initializeApp(firebaseConfig);
-export default fireDb.database().ref();
+const app = firebase.initializeApp(firebaseConfig);
+export const fireDb = getFirestore(app);
