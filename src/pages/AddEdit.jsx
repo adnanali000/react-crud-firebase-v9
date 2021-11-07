@@ -2,7 +2,7 @@ import React , {useState,useEffect} from 'react';
 import { useNavigate, useParams} from 'react-router-dom'; 
 import './AddEdit.css';
 import {fireDb} from '../firebase';
-import {collection,addDoc} from 'firebase/firestore'
+import {collection,addDoc,getDocs,updateDoc,doc} from 'firebase/firestore'
 import {toast} from 'react-toastify'
 
 const initialState = {
@@ -13,16 +13,25 @@ const initialState = {
 
 const AddEdit = () => {
     const [state,setState] = useState(initialState);
-    const [data,setData] = useState({});
+    const [data,setData] = useState([]);
 
     //destructure
     const {name , email , contact} = state;
 
     //firebase db collections
     const contactsCollectionRef = collection(fireDb,"contacts");
-
+    
+    
+    
     //hsitory reference
     const navigate = useNavigate();
+    
+    //grab id using params
+    const {id} =  useParams();
+    
+    //getting value in form
+    
+    
 
     //on change functions
 
@@ -39,6 +48,7 @@ const AddEdit = () => {
         }
         //add data in firebase firestore database
         else{
+        if(!id){
            try{
                await addDoc(contactsCollectionRef,state);
                toast.success("contact added successfully")
@@ -46,6 +56,19 @@ const AddEdit = () => {
            }catch(err){
                 toast.error(err)
            }
+        }
+        //UPDATE CONTACT
+        else{
+        try{
+            const singleContact = doc(fireDb,"contacts",id);
+            await updateDoc(singleContact,state);
+            toast.success("contact updated successfully")
+            setTimeout(()=> navigate('/'),500);
+        }catch(err){
+            toast.error(err);
+        }
+    
+        }
             
         }
     };
@@ -71,7 +94,7 @@ const AddEdit = () => {
                 id="name"
                 name="name"
                 placeholder="Your Name.."
-                value={name}
+                value={name || ""}
                 onChange={handleInputChange} 
                 />
 
@@ -81,7 +104,7 @@ const AddEdit = () => {
                 id="email"
                 name="email"
                 placeholder="Your Email.."
-                value={email}
+                value={email || ""}
                 onChange={handleInputChange} 
                 />
 
@@ -91,11 +114,11 @@ const AddEdit = () => {
                 id="contact"
                 name="contact"
                 placeholder="Your Contact No. .."
-                value={contact}
+                value={contact || ""}
                 onChange={handleInputChange} 
                 />
 
-                <input type="submit" value="save" />
+                <input type="submit" value={id ? "Update" : "Save"} />
 
             </form>
         </div>
