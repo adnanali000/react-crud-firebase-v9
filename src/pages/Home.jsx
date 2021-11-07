@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import {fireDb} from '../firebase';
-import {collection,getDocs} from 'firebase/firestore';
+import {collection,getDocs,deleteDoc,doc} from 'firebase/firestore';
 import {Link} from 'react-router-dom';
+import {toast} from 'react-toastify'
 import './Home.css';
 
 const Home = () => {
@@ -18,6 +19,19 @@ const Home = () => {
         }
         getData();
     },[])
+
+    //delete function
+    const handleDelete = async (id)=>{
+        const contactDoc = doc(fireDb,"contacts",id);
+        if(window.confirm("Are you sure that you wanted to delete that contact ?")){
+            try{
+                await deleteDoc(contactDoc);
+                toast.success("contact deleted successfully");  
+            }catch(err){
+                toast.error(err);
+            }
+        }
+    }
 
     return (
         <div style={{marginTop:'100px'}}>
@@ -45,7 +59,11 @@ const Home = () => {
                                             <button className="btn btn-edit">Edit</button>
                                         </Link>
 
-                                        <button className="btn btn-delete">Delete</button>
+                                        <button 
+                                        className="btn btn-delete" 
+                                        onClick={()=>handleDelete(user.id)}>
+                                            Delete
+                                        </button>
 
                                         <Link to={`/view/${user.id}`}>
                                             <button className="btn btn-view">View</button>
