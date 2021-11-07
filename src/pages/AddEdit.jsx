@@ -37,7 +37,7 @@ const AddEdit = () => {
         if(!name || !email || !contact){
             toast.error("Please provide value in each input field");
         }
-        //add data in firebase database
+        //add data in firebase firestore database
         else{
            try{
                await addDoc(contactsCollectionRef,state);
