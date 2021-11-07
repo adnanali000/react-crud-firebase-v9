@@ -1,3 +1,5 @@
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/database';
 
 require('dotenv').config();
 
@@ -11,4 +13,6 @@ const firebaseConfig = {
     messagingSenderId: "409563616666",
     appId: "1:409563616666:web:07fb3ccf5baa2de0f55623"
   };
-  
+
+const fireDb = firebase.initializeApp(firebaseConfig);
+export default fireDb.database().ref();
