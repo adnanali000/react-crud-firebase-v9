@@ -12,6 +12,7 @@ import About from './pages/About';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/header/Header';
+import Add from './pages/Add';
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
       <ToastContainer position="top-center" />
       <Routes>
         <Route exact path="/" element={<Home/>}  />
-        <Route path="/add" element={<AddEdit/>}  />
+        <Route path="/add" element={<Add />}  />
         <Route path="/update/:id" element={<AddEdit/>}  />
         <Route path="/view/:id" element={<View/>}  />
         <Route path="/about" element={<About/>}  />
